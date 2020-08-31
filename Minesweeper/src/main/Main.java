@@ -53,6 +53,3 @@ public class Main extends JFrame {
 	}
 
 }
-
-
-// TEST Git-Hub

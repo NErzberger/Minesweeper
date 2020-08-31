@@ -13,7 +13,6 @@ public class Playingfield extends JPanel{
 	
 	public Playingfield(int width, int height) {
 		
-		
 		field = new JButton[width*height];
 		setLayout(new GridLayout(width, height));
 		
