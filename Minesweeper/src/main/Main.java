@@ -6,6 +6,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import model.DataGrid;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
@@ -42,7 +45,8 @@ public class Main extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 		
-		JPanel center = new Playingfield(3, 3);
+		JPanel center = new Playingfield(4, 5);
+		
 		contentPane.add(center, BorderLayout.CENTER);
 		
 		JPanel top = new JPanel();
