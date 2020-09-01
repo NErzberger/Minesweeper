@@ -17,7 +17,7 @@ public class Playingfield extends JPanel{
 		PlayingFieldController pfController = new PlayingFieldController(width, height,this);
 		
 		field = new JButton[width*height];
-		setLayout(new GridLayout(width, height));
+		setLayout(new GridLayout(height, width));
 		
 		for (int i = 0; i < field.length; i++) {
 			field[i] = new ButtonPlayingfield("this is button "+ i);
@@ -26,6 +26,7 @@ public class Playingfield extends JPanel{
 		
 		//rufe Methode showBombs auf
 		pfController.showBombs();
+		pfController.countBombsAround();
 	}
 
 	public JButton[] getField() {
