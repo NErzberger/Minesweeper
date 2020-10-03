@@ -3,11 +3,34 @@ package controller;
 import main.Playingfield;
 import model.DataGrid;
 
+/**
+ * Die Klasse PlayingFieldController verbindet die Klassen {@link Playingfield} und {@link DataGrid}. 
+ * Ziel der Klasse ist es, das Spielfeld aufzubauen.
+ * @author Nico
+ * @author Larissa
+ *
+ */
+
 public class PlayingFieldController {
+	/**
+	 * Diese Klassenvariable dient als Container und ist vom Typ {@link Playingfield}.
+	 */
 	private Playingfield pf;
+	/**
+	 * Diese Klassenvariable dient als Container und ist vom Typ {@link DataGird}.
+	 */
 	private DataGrid dg;
+	/**
+	 * In der Klassenvaiable width wird die Breite des Spielfeldes festgehalten.
+	 */
 	private int width;
 	
+	/**
+	 * Konstruktor der Klasse {@link PlayingFieldController}.
+	 * @param width
+	 * @param height
+	 * @param pf
+	 */
 	public PlayingFieldController(int width, int height, Playingfield pf) {
 		dg = new DataGrid(width,height,3);
 		this.pf = pf;
@@ -15,8 +38,9 @@ public class PlayingFieldController {
 		
 	}
 	
-	
-	// zeige Bomben im Playingfield an
+	/**
+	 * zeige Bomben im Playingfield an
+	 */
 	public void showBombs() {
 		String[] posBombs = dg.getPositionBombs();
 		
@@ -28,8 +52,9 @@ public class PlayingFieldController {
 		
 	}
 	
-	
-	// Anzahl Bomben in umliegenden Feldern
+	/**
+	 * Anzahl Bomben in umliegenden Feldern
+	 */
 	public void countBombsAround() {
 		String[] posBombs = dg.getPositionBombs();
 		for (int j = 0; j < (posBombs.length); j++) {

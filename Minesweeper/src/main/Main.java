@@ -12,6 +12,12 @@ import model.DataGrid;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
+/**
+ * 
+ * @author Nico
+ * @author Larissa
+ *
+ */
 public class Main extends JFrame {
 
 	private JPanel contentPane;
