@@ -9,6 +9,7 @@ import javax.swing.JButton;
  *
  */
 public class ButtonPlayingfield extends JButton {
+	
 	/**
 	 *Konstruktor der Klasse {@link ButtonPlayingfield}. 
 	 * @param text
