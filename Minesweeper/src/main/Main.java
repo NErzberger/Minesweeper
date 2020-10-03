@@ -7,9 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import model.DataGrid;
 
-import javax.swing.JButton;
 import javax.swing.JLabel;
 
 /**
@@ -23,7 +21,7 @@ public class Main extends JFrame {
 	private JPanel contentPane;
 
 	/**
-	 * Launch the application.
+	 * Hier wird die Applikation gestartet.
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -39,7 +37,7 @@ public class Main extends JFrame {
 	}
 
 	/**
-	 * Create the frame.
+	 * In diesem Konstruktor wird das Frame erstellt.
 	 */
 	public Main() {
 		
@@ -51,14 +49,14 @@ public class Main extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 		
-		JPanel center = new Playingfield(4, 3);
+		JPanel center = new Playingfield(5, 4);
 		
 		contentPane.add(center, BorderLayout.CENTER);
 		
 		JPanel top = new JPanel();
 		contentPane.add(top, BorderLayout.PAGE_START);
 		
-		JLabel lblHallo = new JLabel("Hallo");
+		JLabel lblHallo = new JLabel("Minesweeper");
 		top.add(lblHallo);
 	}
 

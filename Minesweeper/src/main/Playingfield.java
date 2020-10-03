@@ -4,7 +4,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import controller.PlayingFieldController;
-import model.DataGrid;
+
 
 import java.awt.GridLayout;
 
@@ -16,27 +16,29 @@ import java.awt.GridLayout;
  */
 public class Playingfield extends JPanel{
 
-	private JButton[] field;
+	private ButtonPlayingfield[] field;
+	
 	
 	/**
-	 * Konsturktor der Klasse {@link Playingfield}. Wird dieser Konsturktor aufgerufen, wird das Spielfeld aufgebaut. Hierfür werden in die Klassenvariable Objekte der Klasse {@link ButtonPlayingfield} gesetzt, 
-	 * welche in einem Grind angeordnet werden.
+	 * Konstruktor der Klasse {@link Playingfield}. Wird dieser Konstruktor aufgerufen, wird das Spielfeld aufgebaut.
+	 * Hierfür werden in die Klassenvariable Objekte der Klasse {@link ButtonPlayingfield} gesetzt, 
+	 * welche in einem Grid angeordnet werden.
 	 * @param width
 	 * @param height
 	 */
 	public Playingfield(int width, int height) {
 		//rufe Controller auf
-		PlayingFieldController pfController = new PlayingFieldController(width, height,this);
+		PlayingFieldController pfController = new PlayingFieldController(width, height, this);
 		
-		field = new JButton[width*height];
+		field = new ButtonPlayingfield[width*height];
 		setLayout(new GridLayout(height, width));
 		
 		for (int i = 0; i < field.length; i++) {
-			field[i] = new ButtonPlayingfield("this is button "+ i);
+			field[i] = new ButtonPlayingfield("", pfController, i);
 			this.add(field[i]);
 		}
 		
-		//rufe Methode showBombs auf
+		//rufe Methoden showBombs() & countBombsAround() auf, was die Variable valueButton belegt
 		pfController.showBombs();
 		pfController.countBombsAround();
 	}
@@ -45,7 +47,7 @@ public class Playingfield extends JPanel{
 	 * Diese Methode gibt einen Button Array der Klasse {@link JButton} zurück.
 	 * @return
 	 */
-	public JButton[] getField() {
+	public ButtonPlayingfield[] getField() {
 		return field;
 	}
 
@@ -53,7 +55,7 @@ public class Playingfield extends JPanel{
 	 * Diese Methode setzt ein Button Array in die Klassenvariable field, welche ebenfalls ein Array der Klasse {@link JButton} ist.
 	 * @param field
 	 */
-	public void setField(JButton[] field) {
+	public void setField(ButtonPlayingfield[] field) {
 		this.field = field;
 	}
 }
