@@ -129,13 +129,19 @@ public class PlayingFieldController {
 		}				
 		// umliegende Felder werden aufgedeckt, wenn 0 Minen auﬂenherum liegen; rekursiv
 			if(bp.getValueButton().equals("0")&& !bp.isPressed()) {
+				
 				System.out.println(bp.getButtonId());
 				// decke das rechte Feld auf (so lange wir uns auf dem Spielfeld befinden)
-				if((bp.getButtonId()+1)%width!=0) { // da oben posBombs.length-1 ist hier nur < notwendig, nicht <=
+				if((bp.getButtonId()+1) < pf.getField().length && (bp.getButtonId()+1)%width!=0) { // da oben posBombs.length-1 ist hier nur < notwendig, nicht <=
+					bp.setBackground(Color.black);
+					bp.setPressed(true);
 					pressingButton(pf.getField()[bp.getButtonId()+1]);
+					
 				}
 				//links
-				if(bp.getButtonId()%width!=0) {
+				if((bp.getButtonId()-1) > 0 && (bp.getButtonId()-1)%width!=0) {
+					bp.setPressed(true);
+					bp.setBackground(Color.green);
 					pressingButton(pf.getField()[bp.getButtonId()-1]);
 				}
 				// direkt darunter
@@ -145,16 +151,16 @@ public class PlayingFieldController {
 				} if(bp.getButtonId()-width >= 0) {
 					pressingButton(pf.getField()[bp.getButtonId()-width]);
 				}// schr‰g links oben
-				 if(bp.getButtonId()-width-1 >=0) {
+				if((bp.getButtonId()-width-1)>=0 && (bp.getButtonId()-width)%width!=0 ) {
 					 pressingButton(pf.getField()[bp.getButtonId()-width-1]);
 				// schr‰g rechts oben
-				} if(bp.getButtonId()-width+1 >= 0) {
+				} if((bp.getButtonId()-width+1 >= 0) && (bp.getButtonId()-width+1)%width!=0) {
 					pressingButton(pf.getField()[bp.getButtonId()-width+1]);
 				}// schr‰g links unten
-				 if(bp.getButtonId()+width-1<pf.getField().length) {
+				 if(bp.getButtonId()+width-1<pf.getField().length && (bp.getButtonId()+width)%width!=0) {
 					 pressingButton(pf.getField()[bp.getButtonId()+width-1]);
 				// schr‰g rechts unten
-				} if(bp.getButtonId()+width+1< pf.getField().length) {
+				} if(bp.getButtonId()+width+1< pf.getField().length && (bp.getButtonId()+width+1)%width!=0) {
 					pressingButton(pf.getField()[bp.getButtonId()+width+1]);
 				}
 
@@ -162,6 +168,7 @@ public class PlayingFieldController {
 				
 		}
 			bp.setPressed(true);
+			
 	}
 	
 	
@@ -202,11 +209,11 @@ public class PlayingFieldController {
 		// Neustart des Spiels (funktioniert derzeit nur 4x)
 		if(returnValue==0) {
 			for(int i=0; i<pf.getField().length; i++) {
-				if(pf.getField()[i].isPressed() || pf.getField()[i].isFlag()) {
+				
 					pf.getField()[i].setPressed(false);
 					pf.getField()[i].setText(null);
 					pf.getField()[i].setBackground(Color.red);
-				}
+				
 			}
 			
 			bombsFlagged=0;
