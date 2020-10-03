@@ -1,9 +1,11 @@
 package main;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Color;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
+import javax.swing.SwingUtilities;
 
 import controller.PlayingFieldController;
 
@@ -25,22 +27,79 @@ public class ButtonPlayingfield extends JButton {
 	private String valueButton;
 	
 	/**
+	 * Variable des Typs {@link Boolean}, die speichert, ob eine Flagge gesetzt wurde
+	 */
+	private boolean isFlag = false;
+	private int buttonId;
+	
+	
+	public int getButtonId() {
+		return buttonId;
+	}
+
+	public void setButtonId(int buttonId) {
+		this.buttonId = buttonId;
+	}
+
+	/**
 	 *Konstruktor der Klasse {@link ButtonPlayingfield}. 
 	 * @param text
 	 */
-	public ButtonPlayingfield(String text, PlayingFieldController pf) {
+	public ButtonPlayingfield(String text, PlayingFieldController pf, int buttonId) {
 		super(text);
+		this.buttonId = buttonId;
+		setBackground(Color.red);
 		/**
 		 * diese Methode implementiert einen Action Listener & ruft die Methode executeButtonInController auf,
 		 * damit dieser regeln kann, was beim Drücken des Buttons passieren soll
 		 */
-		addActionListener(new ActionListener() {
+//		addActionListener(new ActionListener() {
+//			
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				
+//			}
+//		});
+		
+		addMouseListener(new MouseListener() {
+			
 			
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				executeButtonInController(pf);
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(SwingUtilities.isRightMouseButton(e)) {
+					executeRightClick(pf);
+				} else {
+					executeButtonInController(pf);
+				}
+				
 			}
 		});
+		
+		
 	}
 	
 	/**
@@ -49,6 +108,9 @@ public class ButtonPlayingfield extends JButton {
 	 */
 	public void executeButtonInController(PlayingFieldController pf) {
 		pf.pressingButton(this);
+	}
+	public void executeRightClick(PlayingFieldController pf) {
+		pf.setFlag(this);
 	}
 	
 	
@@ -81,6 +143,14 @@ public class ButtonPlayingfield extends JButton {
 	 */
 	public void setValueButton(String valueButton) {
 		this.valueButton = valueButton;
+	}
+
+	public boolean isFlag() {
+		return isFlag;
+	}
+
+	public void setFlag(boolean isFlag) {
+		this.isFlag = isFlag;
 	}
 	
 
