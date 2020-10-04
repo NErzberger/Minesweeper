@@ -13,6 +13,8 @@ import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JSplitPane;
 
@@ -55,7 +57,9 @@ public class Main extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 		
-		JPanel center = new Playingfield(6, 5);
+		Playingfield pf = new Playingfield(6, 5);
+		
+		JPanel center = pf;
 		
 		contentPane.add(center, BorderLayout.CENTER);
 		
@@ -69,8 +73,16 @@ public class Main extends JFrame {
 		panel.setLayout(new GridLayout(0, 3, 0, 0));
 		
 		JButton btnRestart = new JButton("Restart");
-		panel.add(btnRestart);
 		btnRestart.setMargin(new Insets(10,10,10,10));
+		btnRestart.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				pf.getPlayingFieldController().restart();
+				
+			}
+		});
+		panel.add(btnRestart);
 		
 		JLabel lblTitle = new JLabel("Minesweeper");
 		top.add(lblTitle);

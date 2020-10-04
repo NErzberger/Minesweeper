@@ -18,6 +18,8 @@ public class Playingfield extends JPanel{
 
 	private ButtonPlayingfield[] field;
 	
+	private PlayingFieldController pfController;
+	
 	
 	/**
 	 * Konstruktor der Klasse {@link Playingfield}. Wird dieser Konstruktor aufgerufen, wird das Spielfeld aufgebaut.
@@ -28,7 +30,7 @@ public class Playingfield extends JPanel{
 	 */
 	public Playingfield(int width, int height) {
 		//rufe Controller auf
-		PlayingFieldController pfController = new PlayingFieldController(width, height, this);
+		this.pfController = new PlayingFieldController(width, height, this);
 		
 		field = new ButtonPlayingfield[width*height];
 		setLayout(new GridLayout(height, width));
@@ -57,5 +59,9 @@ public class Playingfield extends JPanel{
 	 */
 	public void setField(ButtonPlayingfield[] field) {
 		this.field = field;
+	}
+	
+	public PlayingFieldController getPlayingFieldController() {
+		return this.pfController;
 	}
 }
