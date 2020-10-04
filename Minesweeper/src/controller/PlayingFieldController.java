@@ -39,13 +39,20 @@ public class PlayingFieldController {
 	private int bombsFlagged;
 	
 	/**
+	 * Anzahl der Felder, die bereits umgedreht wurden
+	 */
+	private int turnedFields;
+	
+	
+	
+	/**
 	 * Konstruktor der Klasse {@link PlayingFieldController}.
 	 * @param width
 	 * @param height
 	 * @param pf
 	 */
 	public PlayingFieldController(int width, int height, Playingfield pf) {
-		dg = new DataGrid(width,height,3);
+		dg = new DataGrid(width,height,1);
 		this.pf = pf;
 		this.width = width;
 		this.height = height;
@@ -126,16 +133,33 @@ public class PlayingFieldController {
 		// wenn eine Mine getroffen wird
 		if(bp.getValueButton().equals("x")) {
 			showMessage("Leider verloren!", "Du hast eine Mine getroffen.");
-		}				
+		}else {
+
+			turnedFields++;
+			System.out.println(turnedFields);
+			if(turnedFields== (pf.getField().length-dg.getNumberBombs())) {
+				showMessage("Glückwunsch! alle Felder", "Du hast gewonnen!");
+				turnedFields=0;
+			}
+		}
+		
+		
+		
 		// umliegende Felder werden aufgedeckt, wenn 0 Minen außenherum liegen; rekursiv
 			if(bp.getValueButton().equals("0")&& !bp.isPressed()) {
+				
 				System.out.println(bp.getButtonId());
 				// decke das rechte Feld auf (so lange wir uns auf dem Spielfeld befinden)
-				if((bp.getButtonId()+1)%width!=0) { // da oben posBombs.length-1 ist hier nur < notwendig, nicht <=
+				if((bp.getButtonId()+1) < pf.getField().length && (bp.getButtonId()+1)%width!=0) { // da oben posBombs.length-1 ist hier nur < notwendig, nicht <=
+					bp.setBackground(Color.black);
+					bp.setPressed(true);
 					pressingButton(pf.getField()[bp.getButtonId()+1]);
+					
 				}
 				//links
-				if(bp.getButtonId()%width!=0) {
+				if((bp.getButtonId()-1) > 0 && (bp.getButtonId()-1)%width!=0) {
+					bp.setPressed(true);
+					bp.setBackground(Color.green);
 					pressingButton(pf.getField()[bp.getButtonId()-1]);
 				}
 				// direkt darunter
@@ -145,16 +169,16 @@ public class PlayingFieldController {
 				} if(bp.getButtonId()-width >= 0) {
 					pressingButton(pf.getField()[bp.getButtonId()-width]);
 				}// schräg links oben
-				 if(bp.getButtonId()-width-1 >=0) {
+				if((bp.getButtonId()-width-1)>=0 && (bp.getButtonId()-width)%width!=0 ) {
 					 pressingButton(pf.getField()[bp.getButtonId()-width-1]);
 				// schräg rechts oben
-				} if(bp.getButtonId()-width+1 >= 0) {
+				} if((bp.getButtonId()-width+1 >= 0) && (bp.getButtonId()-width+1)%width!=0) {
 					pressingButton(pf.getField()[bp.getButtonId()-width+1]);
 				}// schräg links unten
-				 if(bp.getButtonId()+width-1<pf.getField().length) {
+				 if(bp.getButtonId()+width-1<pf.getField().length && (bp.getButtonId()+width)%width!=0) {
 					 pressingButton(pf.getField()[bp.getButtonId()+width-1]);
 				// schräg rechts unten
-				} if(bp.getButtonId()+width+1< pf.getField().length) {
+				} if(bp.getButtonId()+width+1< pf.getField().length && (bp.getButtonId()+width+1)%width!=0) {
 					pressingButton(pf.getField()[bp.getButtonId()+width+1]);
 				}
 
@@ -162,6 +186,7 @@ public class PlayingFieldController {
 				
 		}
 			bp.setPressed(true);
+			
 	}
 	
 	
@@ -186,15 +211,16 @@ public class PlayingFieldController {
 			}
 		}
 		if(bombsFlagged==dg.getNumberBombs()) {
-			showMessage("Glückwunsch!", "Du hast gewonnen!");
+			showMessage("Glückwunsch! bombsFlagged", "Du hast gewonnen!");
 		}
-		System.out.println(bombsFlagged);
+		//System.out.println(bombsFlagged);
 		
 	}
 	
 	
 	// Nachricht bei Sieg oder Niederlage
 	public void showMessage(String title, String message) {
+		turnAll();
 		String[] options = new String[2];
 		options[0] = new String("Neustart");
 		options[1] = new String("Schließen");
@@ -202,14 +228,18 @@ public class PlayingFieldController {
 		// Neustart des Spiels (funktioniert derzeit nur 4x)
 		if(returnValue==0) {
 			for(int i=0; i<pf.getField().length; i++) {
-				if(pf.getField()[i].isPressed() || pf.getField()[i].isFlag()) {
+					pf.getField()[i].setValueButton(null);
 					pf.getField()[i].setPressed(false);
 					pf.getField()[i].setText(null);
 					pf.getField()[i].setBackground(Color.red);
-				}
+					
 			}
 			
+			
 			bombsFlagged=0;
+			turnedFields=0;
+			dg.setPositionBombs(new String[width*height]);
+			
 			dg.setBombs(dg.getNumberBombs());
 			this.showBombs();
 			this.countBombsAround();
@@ -223,7 +253,18 @@ public class PlayingFieldController {
 		}
 	}
 	
-	
+	// alle Felder aufdecken
+	public void turnAll() {
+		for(int i=0; i<pf.getField().length; i++) {
+			if(!pf.getField()[i].isPressed()) {
+				pf.getField()[i].setText(pf.getField()[i].getValueButton());
+				pf.getField()[i].setPressed(true);
+				pf.getField()[i].setBackground(Color.CYAN);
+			}
+			
+			
+		}
+	}
 	
 	
 }
