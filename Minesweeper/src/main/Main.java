@@ -12,11 +12,13 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JSplitPane;
+import javax.swing.ImageIcon;
 
 /**
  * 
@@ -73,6 +75,11 @@ public class Main extends JFrame {
 		panel.setLayout(new GridLayout(0, 3, 0, 0));
 		
 		JButton btnRestart = new JButton("Restart");
+		
+		ImageIcon icon = new ImageIcon(Main.class.getResource("/main/flag.png"));
+		Image image = icon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+		btnRestart.setIcon(new ImageIcon(image));
+	
 		btnRestart.setMargin(new Insets(10,10,10,10));
 		btnRestart.addActionListener(new ActionListener() {
 			
