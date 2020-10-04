@@ -49,7 +49,7 @@ public class ButtonPlayingfield extends JButton {
 	public ButtonPlayingfield(String text, PlayingFieldController pf, int buttonId) {
 		super(text);
 		this.buttonId = buttonId;
-		setBackground(Color.red);
+		setBackground(Color.blue);
 		/**
 		 * diese Methode implementiert einen Action Listener & ruft die Methode executeButtonInController auf,
 		 * damit dieser regeln kann, was beim Drücken des Buttons passieren soll

@@ -135,7 +135,7 @@ public class PlayingFieldController {
 	public void pressingButton(ButtonPlayingfield bp) {
 		// Boolean pressed wird auf wahr gesetzt -> Button wurde gedrückt
 
-		bp.setBackground(Color.blue);
+		bp.setBackground(Color.green);
 		// Wert des Buttons wird angezeigt
 		bp.setText(bp.getValueButton());
 
@@ -166,7 +166,6 @@ public class PlayingFieldController {
 				// ist hier nur
 				// < notwendig,
 				// nicht <=
-				bp.setBackground(Color.black);
 				bp.setPressed(true);
 				pressingButton(pf.getField()[bp.getButtonId() + 1]);
 
@@ -175,7 +174,6 @@ public class PlayingFieldController {
 			if ((bp.getButtonId() - 1) >= 0 && (bp.getButtonId()) % width != 0
 					&& !pf.getField()[bp.getButtonId() - 1].isPressed()) {
 				bp.setPressed(true);
-				bp.setBackground(Color.green);
 				pressingButton(pf.getField()[bp.getButtonId() - 1]);
 			}
 			// direkt darunter
@@ -220,7 +218,7 @@ public class PlayingFieldController {
 	public void setFlag(ButtonPlayingfield bp) {
 		if (bp.isFlag()) {
 			bp.setFlag(false);
-			bp.setBackground(Color.RED);
+			bp.setBackground(Color.blue);
 			if (bp.getValueButton().equals("x")) {
 				bombsFlagged--;
 			} else {
@@ -267,7 +265,7 @@ public class PlayingFieldController {
 			pf.getField()[i].setValueButton(null);
 			pf.getField()[i].setPressed(false);
 			pf.getField()[i].setText(null);
-			pf.getField()[i].setBackground(Color.red);
+			pf.getField()[i].setBackground(Color.blue);
 
 		}
 
@@ -287,7 +285,11 @@ public class PlayingFieldController {
 			if (!pf.getField()[i].isPressed()) {
 				pf.getField()[i].setText(pf.getField()[i].getValueButton());
 				pf.getField()[i].setPressed(true);
-				pf.getField()[i].setBackground(Color.CYAN);
+				if(pf.getField()[i].getValueButton().equals("x")) {
+					pf.getField()[i].setBackground(Color.red);
+				}else {
+					pf.getField()[i].setBackground(Color.green);
+				}
 			}
 
 		}
