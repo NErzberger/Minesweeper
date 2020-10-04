@@ -44,17 +44,8 @@ public class DataGrid {
 			if(positionBombs[randomNumber] == null) {
 				positionBombs[randomNumber] = "x";
 				numberBombs--;
-		
-			}
-			
+			}	
 		}
-		
-//		positionBombs[2] = "x";
-//		positionBombs[7] = "x";
-//		positionBombs[10] = "x";
-//		for(int i=0; i<positionBombs.length; i++) {
-//			System.out.println(positionBombs[i]);
-//		}
 	}
 
 	/**
