@@ -1,9 +1,11 @@
 package main;
 
 import java.awt.Color;
+import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.SwingUtilities;
 
@@ -128,6 +130,20 @@ public class ButtonPlayingfield extends JButton {
 	 */
 	public void setPressed(boolean pressed) {
 		this.pressed = pressed;
+	}
+	
+	public void setImage(Imagetype type, int width, int height) {
+		ImageIcon icon = null;
+		if(type == Imagetype.BOMB) {
+			icon = new ImageIcon(Main.class.getResource("/main/bomb.png"));
+		} else if(type == Imagetype.FLAG){
+			icon = new ImageIcon(Main.class.getResource("/main/flag.png"));
+		} else if(type == Imagetype.WALL) {
+			//ImageIcon icon = new ImageIcon(Main.class.getResource("/main/wall.png"));
+		}
+
+		Image image = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+		this.setIcon(new ImageIcon(image));
 	}
 
 	/**

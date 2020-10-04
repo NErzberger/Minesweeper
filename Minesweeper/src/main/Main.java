@@ -76,10 +76,10 @@ public class Main extends JFrame {
 		
 		JButton btnRestart = new JButton("Restart");
 		
-		ImageIcon icon = new ImageIcon(Main.class.getResource("/main/flag.png"));
-		Image image = icon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-		btnRestart.setIcon(new ImageIcon(image));
-	
+//		ImageIcon icon = new ImageIcon(Main.class.getResource("/main/flag.png"));
+//		Image image = icon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+//		btnRestart.setIcon(new ImageIcon(image));
+//	
 		btnRestart.setMargin(new Insets(10,10,10,10));
 		btnRestart.addActionListener(new ActionListener() {
 			
