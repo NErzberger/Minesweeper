@@ -12,6 +12,8 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import java.awt.GridLayout;
+import java.awt.Insets;
+
 import javax.swing.JSplitPane;
 
 /**
@@ -59,17 +61,19 @@ public class Main extends JFrame {
 		
 		JPanel top = new JPanel();
 		contentPane.add(top, BorderLayout.PAGE_START);
+		GridLayout gLayout = new GridLayout(0,3);		
+		top.setLayout(gLayout);
 		
-		
-		JSplitPane splitPane = new JSplitPane();
-		top.add(splitPane);
+		JPanel panel = new JPanel();
+		top.add(panel);
+		panel.setLayout(new GridLayout(0, 3, 0, 0));
 		
 		JButton btnRestart = new JButton("Restart");
-		splitPane.setLeftComponent(btnRestart);
-		btnRestart.setHorizontalAlignment(SwingConstants.LEFT);
+		panel.add(btnRestart);
+		btnRestart.setMargin(new Insets(10,10,10,10));
 		
 		JLabel lblTitle = new JLabel("Minesweeper");
-		splitPane.setRightComponent(lblTitle);
+		top.add(lblTitle);
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 	}
 
