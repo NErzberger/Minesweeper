@@ -144,7 +144,8 @@ public class PlayingFieldController {
 			if (bp.getValueButton().equals("x")) {
 				// bp.setImage(Imagetype.BOMB, 50, 50);
 				showMessage("Leider verloren!", "Du hast eine Mine getroffen.");
-
+				turnedFields=0;
+				return;
 			} else {
 				// Wert des Buttons wird angezeigt
 				bp.setText(bp.getValueButton());
@@ -154,7 +155,7 @@ public class PlayingFieldController {
 				}
 				System.out.println(turnedFields);
 				if (turnedFields == (pf.getField().length - dg.getNumberBombs())) {
-					showMessage("Glückwunsch!", "Du hast alle freien Felder aufgedeckt!");
+					showMessage("Glückwunsch! Gewonnen!", "Du hast alle freien Felder aufgedeckt!");
 					turnedFields = 0;
 					return;
 				}
@@ -207,9 +208,8 @@ public class PlayingFieldController {
 						&& !pf.getField()[bp.getButtonId() + width - 1].isPressed()) {
 					bp.setPressed(true);
 					pressingButton(pf.getField()[bp.getButtonId() + width - 1]);
-					// schräg rechts unten
-				}
-				if (bp.getButtonId() + width + 1 < pf.getField().length && (bp.getButtonId() + width + 1) % width != 0
+				}// schräg rechts unten
+				if (bp.getButtonId() + width + 1 < pf.getField().length && (bp.getButtonId() + width+1) % width != 0
 						&& !pf.getField()[bp.getButtonId() + width + 1].isPressed()) {
 					bp.setPressed(true);
 					pressingButton(pf.getField()[bp.getButtonId() + width + 1]);
@@ -243,7 +243,9 @@ public class PlayingFieldController {
 				}
 			}
 			if (bombsFlagged == dg.getNumberBombs()) {
-				showMessage("Glückwunsch!", "Du hast alle Bomben markiert!");
+				showMessage("Glückwunsch! Gewonnen!", "Du hast alle Bomben markiert!");
+				turnedFields=0;
+				return;
 			}
 			// System.out.println(bombsFlagged);
 		}
@@ -275,6 +277,7 @@ public class PlayingFieldController {
 			pf.getField()[i].setText(null);
 			pf.getField()[i].setBackground(Color.blue);
 			pf.getField()[i].setIcon(null);
+			pf.getField()[i].setFlag(false);
 
 		}
 
