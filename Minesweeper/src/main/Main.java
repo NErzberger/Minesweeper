@@ -49,7 +49,7 @@ public class Main extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 		
-		JPanel center = new Playingfield(4, 3);
+		JPanel center = new Playingfield(6, 5);
 		
 		contentPane.add(center, BorderLayout.CENTER);
 		
