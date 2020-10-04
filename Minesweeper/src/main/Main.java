@@ -9,6 +9,10 @@ import javax.swing.border.EmptyBorder;
 
 
 import javax.swing.JLabel;
+import javax.swing.JButton;
+import javax.swing.SwingConstants;
+import java.awt.GridLayout;
+import javax.swing.JSplitPane;
 
 /**
  * 
@@ -56,8 +60,17 @@ public class Main extends JFrame {
 		JPanel top = new JPanel();
 		contentPane.add(top, BorderLayout.PAGE_START);
 		
-		JLabel lblHallo = new JLabel("Minesweeper");
-		top.add(lblHallo);
+		
+		JSplitPane splitPane = new JSplitPane();
+		top.add(splitPane);
+		
+		JButton btnRestart = new JButton("Restart");
+		splitPane.setLeftComponent(btnRestart);
+		btnRestart.setHorizontalAlignment(SwingConstants.LEFT);
+		
+		JLabel lblTitle = new JLabel("Minesweeper");
+		splitPane.setRightComponent(lblTitle);
+		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 	}
 
 }
