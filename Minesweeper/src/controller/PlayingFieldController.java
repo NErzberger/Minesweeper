@@ -1,15 +1,6 @@
 package controller;
 
-import java.awt.Color;
-import java.awt.GridLayout;
-import java.awt.Image;
-
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
-
-import main.Main;
 import model.DataGrid;
-import view.ButtonPlayingfield;
 import view.Imagetype;
 import view.Playingfield;
 
@@ -93,10 +84,7 @@ public class PlayingFieldController {
 
 				// prüfe, ob rechts eine Bombe liegt (so lange wir uns auf dem Spielfeld
 				// befinden)
-				if (j < posBombs.length && (j + 1) % width != 0 && posBombs[j + 1] != null) { // da oben
-																								// posBombs.length-1 ist
-																								// hier nur < notwendig,
-																								// nicht <=
+				if (j < posBombs.length && (j + 1) % width != 0 && posBombs[j + 1] != null) { 
 					counter++;
 				}
 				// links
@@ -120,8 +108,8 @@ public class PlayingFieldController {
 				} // schräg links unten
 				if (j + width - 1 < posBombs.length && (j + width) % width != 0 && posBombs[j + width - 1] != null) {
 					counter++;
-					// schräg rechts unten
 				}
+				// schräg rechts unten
 				if (j + width + 1 < posBombs.length && (j + width + 1) % width != 0
 						&& posBombs[j + width + 1] != null) {
 					counter++;
@@ -165,18 +153,11 @@ public class PlayingFieldController {
 
 			// umliegende Felder werden aufgedeckt, wenn 0 Minen außenherum liegen; rekursiv
 			if (bp.getValueButton().equals("0")) {
-
-				System.out.println(bp.getButtonId());
 				// decke das rechte Feld auf (so lange wir uns auf dem Spielfeld befinden)
 				if ((bp.getButtonId() + 1) < pf.getField().length && (bp.getButtonId() + 1) % width != 0
-						&& !pf.getField()[bp.getButtonId() + 1].isPressed()) { // da oben
-					// posBombs.length-1
-					// ist hier nur
-					// < notwendig,
-					// nicht <=
+						&& !pf.getField()[bp.getButtonId() + 1].isPressed()) {
 					bp.setPressed(true);
 					pressingButton(pf.getField()[bp.getButtonId() + 1]);
-
 				}
 				// links
 				if ((bp.getButtonId() - 1) >= 0 && (bp.getButtonId()) % width != 0
@@ -256,7 +237,6 @@ public class PlayingFieldController {
 
 	public void restart() {
 		// Neustart des Spiels
-
 		for (int i = 0; i < pf.getField().length; i++) {
 			pf.getField()[i].setValueButton(null);
 			pf.getField()[i].setPressed(false);
@@ -264,7 +244,6 @@ public class PlayingFieldController {
 			pf.getField()[i].setBackground(0,0,255);
 			pf.getField()[i].setIconMS(null);
 			pf.getField()[i].setFlag(false);
-
 		}
 
 		bombsFlagged = 0;
@@ -280,8 +259,6 @@ public class PlayingFieldController {
 	// alle Felder aufdecken
 	public void turnAll() {
 		for (int i = 0; i < pf.getField().length; i++) {
-			// if (!pf.getField()[i].isPressed()) {
-
 			pf.getField()[i].setPressed(true);
 			if (pf.getField()[i].getValueButton().equals("x")) {
 				pf.getField()[i].setBackground(255,0,0);
@@ -290,9 +267,6 @@ public class PlayingFieldController {
 				pf.getField()[i].setBackground(0,255,0);
 				pf.getField()[i].setText(pf.getField()[i].getValueButton());
 			}
-			// }
-
 		}
 	}
-
 }
