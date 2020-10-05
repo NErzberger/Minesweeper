@@ -7,11 +7,11 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
-import main.ButtonPlayingfield;
-import main.Imagetype;
 import main.Main;
-import main.Playingfield;
 import model.DataGrid;
+import view.ButtonPlayingfield;
+import view.Imagetype;
+import view.Playingfield;
 
 /**
  * Die Klasse PlayingFieldController verbindet die Klassen {@link Playingfield}
@@ -27,7 +27,9 @@ public class PlayingFieldController {
 	 * Diese Klassenvariable dient als Container und ist vom Typ
 	 * {@link Playingfield}.
 	 */
-	private Playingfield pf;
+	private IPanelComponent pf;
+	
+	private IMessageBox mbox;
 	/**
 	 * Diese Klassenvariable dient als Container und ist vom Typ {@link DataGird}.
 	 */
@@ -56,14 +58,14 @@ public class PlayingFieldController {
 	 * @param height
 	 * @param pf
 	 */
-	public PlayingFieldController(int width, int height, Playingfield pf) {
+	public PlayingFieldController(int width, int height, IPanelComponent pf, IMessageBox mbox) {
 		dg = new DataGrid(width, height, 5);
 		this.pf = pf;
+		this.mbox = mbox;
 		this.width = width;
 		this.height = height;
 	}
 
-	// public PlayingFieldController() {}
 
 	/**
 	 * zeige Bomben im Playingfield an
@@ -136,14 +138,14 @@ public class PlayingFieldController {
 	 * 
 	 * @param bp
 	 */
-	public void pressingButton(ButtonPlayingfield bp) {
+	public void pressingButton(IButtonPlayingfield bp) {
 		if (!bp.isFlag()) {
-			bp.setBackground(Color.green);
+			bp.setBackground(0,255,0);
 
 			// wenn eine Mine getroffen wird
 			if (bp.getValueButton().equals("x")) {
 				// bp.setImage(Imagetype.BOMB, 50, 50);
-				showMessage("Leider verloren!", "Du hast eine Mine getroffen.");
+				mbox.showMessage("Leider verloren!", "Du hast eine Mine getroffen.", this);
 				turnedFields=0;
 				return;
 			} else {
@@ -155,7 +157,7 @@ public class PlayingFieldController {
 				}
 				System.out.println(turnedFields);
 				if (turnedFields == (pf.getField().length - dg.getNumberBombs())) {
-					showMessage("Glückwunsch! Gewonnen!", "Du hast alle freien Felder aufgedeckt!");
+					mbox.showMessage("Glückwunsch! Gewonnen!", "Du hast alle freien Felder aufgedeckt!", this);
 					turnedFields = 0;
 					return;
 				}
@@ -220,12 +222,12 @@ public class PlayingFieldController {
 	}
 
 	// setFlag
-	public void setFlag(ButtonPlayingfield bp) {
+	public void setFlag(IButtonPlayingfield bp) {
 		if (!bp.isPressed()) {
 			if (bp.isFlag()) {
 				bp.setFlag(false);
 				// bp.setBackground(Color.blue);
-				bp.setIcon(null);
+				bp.setIconMS(null);
 				if (bp.getValueButton().equals("x")) {
 					bombsFlagged--;
 				} else {
@@ -243,30 +245,14 @@ public class PlayingFieldController {
 				}
 			}
 			if (bombsFlagged == dg.getNumberBombs()) {
-				showMessage("Glückwunsch! Gewonnen!", "Du hast alle Bomben markiert!");
+				mbox.showMessage("Glückwunsch! Gewonnen!", "Du hast alle Bomben markiert!", this);
 				turnedFields=0;
 				return;
 			}
-			// System.out.println(bombsFlagged);
 		}
 	}
 
-	// Nachricht bei Sieg oder Niederlage
-	public void showMessage(String title, String message) {
-		turnAll();
-		String[] options = new String[2];
-		options[0] = new String("Neustart");
-		options[1] = new String("Schließen");
-		int returnValue = JOptionPane.showOptionDialog(pf, message, title, 0, JOptionPane.INFORMATION_MESSAGE, null,
-				options, null);
-		if (returnValue == 0) {
-			restart();
-		}
-		// Beenden des Spiels / Schließen
-		if (returnValue == 1) {
-			System.exit(0);
-		}
-	}
+	
 
 	public void restart() {
 		// Neustart des Spiels
@@ -275,8 +261,8 @@ public class PlayingFieldController {
 			pf.getField()[i].setValueButton(null);
 			pf.getField()[i].setPressed(false);
 			pf.getField()[i].setText(null);
-			pf.getField()[i].setBackground(Color.blue);
-			pf.getField()[i].setIcon(null);
+			pf.getField()[i].setBackground(0,0,255);
+			pf.getField()[i].setIconMS(null);
 			pf.getField()[i].setFlag(false);
 
 		}
@@ -298,10 +284,10 @@ public class PlayingFieldController {
 
 			pf.getField()[i].setPressed(true);
 			if (pf.getField()[i].getValueButton().equals("x")) {
-				pf.getField()[i].setBackground(Color.red);
+				pf.getField()[i].setBackground(255,0,0);
 				pf.getField()[i].setImage(Imagetype.BOMB, 50, 50);
 			} else {
-				pf.getField()[i].setBackground(Color.green);
+				pf.getField()[i].setBackground(0,255,0);
 				pf.getField()[i].setText(pf.getField()[i].getValueButton());
 			}
 			// }

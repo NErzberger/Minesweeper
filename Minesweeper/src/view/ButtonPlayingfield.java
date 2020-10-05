@@ -1,4 +1,4 @@
-package main;
+package view;
 
 import java.awt.Color;
 import java.awt.Image;
@@ -9,7 +9,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.SwingUtilities;
 
+import controller.IButtonPlayingfield;
 import controller.PlayingFieldController;
+import main.Main;
 
 
 /**
@@ -18,7 +20,7 @@ import controller.PlayingFieldController;
  * @author Larissa
  *
  */
-public class ButtonPlayingfield extends JButton {
+public class ButtonPlayingfield extends JButton implements IButtonPlayingfield{
 	
 	/**
 	 * Variable des Typs {@link Boolean}, die speichert, ob der Button gedrückt wurde
@@ -135,9 +137,9 @@ public class ButtonPlayingfield extends JButton {
 	public void setImage(Imagetype type, int width, int height) {
 		ImageIcon icon = null;
 		if(type == Imagetype.BOMB) {
-			icon = new ImageIcon(Main.class.getResource("/main/bomb.png"));
+			icon = new ImageIcon(Main.class.getResource("/view/bomb.png"));
 		} else if(type == Imagetype.FLAG){
-			icon = new ImageIcon(Main.class.getResource("/main/flag.png"));
+			icon = new ImageIcon(Main.class.getResource("/view/flag.png"));
 		} else if(type == Imagetype.WALL) {
 			//ImageIcon icon = new ImageIcon(Main.class.getResource("/main/wall.png"));
 		}
@@ -168,6 +170,18 @@ public class ButtonPlayingfield extends JButton {
 
 	public void setFlag(boolean isFlag) {
 		this.isFlag = isFlag;
+	}
+
+	@Override
+	public void setBackground(int r, int g, int b) {
+		// TODO Auto-generated method stub
+		setBackground(new Color (r,g,b));
+	}
+
+	@Override
+	public void setIconMS(ImageIcon icon) {
+		// TODO Auto-generated method stub
+		setIcon(icon);
 	}
 	
 

@@ -1,11 +1,13 @@
-package main;
+package view;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import controller.IButtonPlayingfield;
+import controller.IPanelComponent;
 import controller.PlayingFieldController;
 
-
+import java.awt.Component;
 import java.awt.GridLayout;
 
 /**
@@ -14,9 +16,9 @@ import java.awt.GridLayout;
  * @author Larissa
  *
  */
-public class Playingfield extends JPanel{
+public class Playingfield extends JPanel implements IPanelComponent{
 
-	private ButtonPlayingfield[] field;
+	private IButtonPlayingfield[] field;
 	
 	private PlayingFieldController pfController;
 	
@@ -30,14 +32,14 @@ public class Playingfield extends JPanel{
 	 */
 	public Playingfield(int width, int height) {
 		//rufe Controller auf
-		this.pfController = new PlayingFieldController(width, height, this);
+		this.pfController = new PlayingFieldController(width, height, this, new MessageBox(pfController));
 		
-		field = new ButtonPlayingfield[width*height];
+		field = new IButtonPlayingfield[width*height];
 		setLayout(new GridLayout(height, width));
 		
 		for (int i = 0; i < field.length; i++) {
 			field[i] = new ButtonPlayingfield("", pfController, i);
-			this.add(field[i]);
+			this.add((Component) field[i]);
 		}
 		
 		//rufe Methoden showBombs() & countBombsAround() auf, was die Variable valueButton belegt
@@ -49,7 +51,7 @@ public class Playingfield extends JPanel{
 	 * Diese Methode gibt einen Button Array der Klasse {@link JButton} zurück.
 	 * @return
 	 */
-	public ButtonPlayingfield[] getField() {
+	public IButtonPlayingfield[] getField() {
 		return field;
 	}
 
@@ -57,7 +59,7 @@ public class Playingfield extends JPanel{
 	 * Diese Methode setzt ein Button Array in die Klassenvariable field, welche ebenfalls ein Array der Klasse {@link JButton} ist.
 	 * @param field
 	 */
-	public void setField(ButtonPlayingfield[] field) {
+	public void setField(IButtonPlayingfield[] field) {
 		this.field = field;
 	}
 	
