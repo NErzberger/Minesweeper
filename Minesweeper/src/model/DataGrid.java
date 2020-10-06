@@ -15,7 +15,13 @@ public class DataGrid {
 	/**
 	 * Diese Klassenvariable des Typs {@link Integer} gibt die Anzahl der zu setzenden Bomben an.
 	 */
-	private int numberBombs;
+	private int numberBombs = 5;
+	
+	private int width;
+	
+	private int height;
+	
+	
 	
 	/**
 	 * Konstruktor der Klasse {@link DataGrid}. Bei Aufruf des Konstruktors wird die Methode setBombs aufgerufen.

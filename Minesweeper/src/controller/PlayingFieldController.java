@@ -1,7 +1,7 @@
 package controller;
 
+import main.Imagetype;
 import model.DataGrid;
-import view.Imagetype;
 import view.Playingfield;
 
 /**
@@ -20,16 +20,25 @@ public class PlayingFieldController {
 	 */
 	private IPanelComponent pf;
 	
-	private IMessageBox mbox;
 	/**
-	 * Diese Klassenvariable dient als Container und ist vom Typ {@link DataGird}.
+	 * 
+	 */
+	private IMessageBox mbox;
+	
+	/**
+	 * Diese Klassenvariable dient als Container und ist vom Typ {@link DataGrid}.
 	 */
 	private DataGrid dg;
+	
 	/**
 	 * In der Klassenvariable width wird die Breite & Höhe des Spielfeldes
 	 * festgehalten.
 	 */
 	private int width;
+	
+	/**
+	 * 
+	 */
 	private int height;
 
 	/**
@@ -42,6 +51,12 @@ public class PlayingFieldController {
 	 */
 	private int turnedFields;
 
+	/**
+	 * Ein eindimensionales Array der Buttons nach dem Interface {@link IButtonPlayingfield}
+	 * Darin wird das Spielfeld als Grid gespeichert
+	 */
+	private IButtonPlayingfield[] field;
+	
 	/**
 	 * Konstruktor der Klasse {@link PlayingFieldController}.
 	 * 
@@ -66,7 +81,7 @@ public class PlayingFieldController {
 
 		for (int i = 0; i < posBombs.length; i++) {
 			if (posBombs[i] != null) {
-				pf.getField()[i].setValueButton("x");
+				field[i].setValueButton("x");
 
 			}
 		}
@@ -81,40 +96,34 @@ public class PlayingFieldController {
 		for (int j = 0; j < (posBombs.length); j++) {
 			int counter = 0;
 			if (posBombs[j] == null) {
-
 				// prüfe, ob rechts eine Bombe liegt (so lange wir uns auf dem Spielfeld
 				// befinden)
 				if (j < posBombs.length && (j + 1) % width != 0 && posBombs[j + 1] != null) { 
 					counter++;
-				}
-				// links
+				} // links
 				if (j - 1 >= 0 && j % width != 0 && posBombs[j - 1] != null) {
 					counter++;
-				}
-				// direkt darunter
+				} // direkt darunter
 				if (j + width < posBombs.length && posBombs[j + width] != null) {
 					counter++;
-					// direkt darüber
-				}
+				} // direkt darüber
 				if (j - width >= 0 && posBombs[j - width] != null) {
 					counter++;
 				} // schräg links oben
 				if (j - width - 1 >= 0 && (j - width) % width != 0 && posBombs[j - width - 1] != null) {
 					counter++;
-					// schräg rechts oben
-				}
+				} // schräg rechts oben
 				if (j - width + 1 >= 0 && (j - width + 1) % width != 0 && posBombs[j - width + 1] != null) {
 					counter++;
 				} // schräg links unten
 				if (j + width - 1 < posBombs.length && (j + width) % width != 0 && posBombs[j + width - 1] != null) {
 					counter++;
-				}
-				// schräg rechts unten
+				} // schräg rechts unten
 				if (j + width + 1 < posBombs.length && (j + width + 1) % width != 0
 						&& posBombs[j + width + 1] != null) {
 					counter++;
 				}
-				pf.getField()[j].setValueButton("" + counter);
+				field[j].setValueButton("" + counter);
 			}
 
 		}
@@ -122,8 +131,17 @@ public class PlayingFieldController {
 	}
 
 	/**
-	 * Methode, die regelt, was passiert, wenn ein Button gedrückt wird
-	 * 
+	 * Die Methode pressingButton übernimmt die Bearbeitung der Aktion eines Linksklicks auf die Buttons, welche das 
+	 * Interface IButtonPlayingfield implementieren. 
+	 * Zunächst wird geprüft, ob eine Flagge auf den Button gesetzt wurde. Wenn dem nicht so ist, so wird die 
+	 * Hintergrundfarbe des Buttons auf Grün gesetzt. Daraufhin wird geprüft, ob es sich bei dem Button um eine Mine handelt.
+	 * Wenn dem so ist, so hat der User das Spiel verloren und eine MessageBox nach dem Interface {@link IMessageBox} aufgerufen.
+	 * Wenn dem nicht so ist, wird geprüft ob der Button bereits gedrückt wurde. Wenn nicht, so wird der Zähler der gedrückten 
+	 * Buttons um eins erhöht und dem Button mitgeteilt, dass er bereits gedrückt wurde. Daraufhin wird geprüft, ob alle Felder 
+	 * bzw. Buttons gedrückt wurden. Ist dem so, so wird dem User mitgeteilt, dass er gewonnen hat und der Zähler der gedrückten Buttons
+	 * auf 0 gesetzt, worauf der weitere Fortgang der Methode abgebrochen wird. 
+	 * Zum Schluss wird kontrolliert, ob das Feld den Wert 0 hat, also keine Bomben im direkten Umfeld hat. Ist dem so, so werden rekursiv alle 8
+	 * umliegende Felder aufgedeckt. 
 	 * @param bp
 	 */
 	public void pressingButton(IButtonPlayingfield bp) {
@@ -138,13 +156,12 @@ public class PlayingFieldController {
 				return;
 			} else {
 				// Wert des Buttons wird angezeigt
-				bp.setText(bp.getValueButton());
+				bp.setTextMS(bp.getValueButton());
 				if (!bp.isPressed()) {
 					turnedFields++;
 					bp.setPressed(true);
 				}
-				System.out.println(turnedFields);
-				if (turnedFields == (pf.getField().length - dg.getNumberBombs())) {
+				if (turnedFields == (field.length - dg.getNumberBombs())) {
 					mbox.showMessage("Glückwunsch! Gewonnen!", "Du hast alle freien Felder aufgedeckt!", this);
 					turnedFields = 0;
 					return;
@@ -154,48 +171,44 @@ public class PlayingFieldController {
 			// umliegende Felder werden aufgedeckt, wenn 0 Minen außenherum liegen; rekursiv
 			if (bp.getValueButton().equals("0")) {
 				// decke das rechte Feld auf (so lange wir uns auf dem Spielfeld befinden)
-				if ((bp.getButtonId() + 1) < pf.getField().length && (bp.getButtonId() + 1) % width != 0
-						&& !pf.getField()[bp.getButtonId() + 1].isPressed()) {
+				if ((bp.getButtonId() + 1) < field.length && (bp.getButtonId() + 1) % width != 0
+						&& !field[bp.getButtonId() + 1].isPressed()) {
 					bp.setPressed(true);
-					pressingButton(pf.getField()[bp.getButtonId() + 1]);
-				}
-				// links
+					pressingButton(field[bp.getButtonId() + 1]);
+				} // links
 				if ((bp.getButtonId() - 1) >= 0 && (bp.getButtonId()) % width != 0
-						&& !pf.getField()[bp.getButtonId() - 1].isPressed()) {
+						&& !field[bp.getButtonId() - 1].isPressed()) {
 					bp.setPressed(true);
-					pressingButton(pf.getField()[bp.getButtonId() - 1]);
-				}
-				// direkt darunter
-				if (bp.getButtonId() + width < pf.getField().length
-						&& !pf.getField()[bp.getButtonId() + width].isPressed()) {
+					pressingButton(field[bp.getButtonId() - 1]);
+				} // direkt darunter
+				if (bp.getButtonId() + width < field.length
+						&& !field[bp.getButtonId() + width].isPressed()) {
 					bp.setPressed(true);
-					pressingButton(pf.getField()[bp.getButtonId() + width]);
-					// direkt darüber
-				}
-				if (bp.getButtonId() - width >= 0 && !pf.getField()[bp.getButtonId() - width].isPressed()) {
+					pressingButton(field[bp.getButtonId() + width]);
+				} // direkt darüber
+				if (bp.getButtonId() - width >= 0 && !field[bp.getButtonId() - width].isPressed()) {
 					bp.setPressed(true);
-					pressingButton(pf.getField()[bp.getButtonId() - width]);
+					pressingButton(field[bp.getButtonId() - width]);
 				} // schräg links oben
 				if ((bp.getButtonId() - width - 1) >= 0 && (bp.getButtonId() - width) % width != 0
-						&& !pf.getField()[bp.getButtonId() - width - 1].isPressed()) {
+						&& !field[bp.getButtonId() - width - 1].isPressed()) {
 					bp.setPressed(true);
-					pressingButton(pf.getField()[bp.getButtonId() - width - 1]);
-					// schräg rechts oben
-				}
+					pressingButton(field[bp.getButtonId() - width - 1]);
+				} // schräg rechts oben
 				if ((bp.getButtonId() - width + 1 >= 0) && (bp.getButtonId() - width + 1) % width != 0
-						&& !pf.getField()[bp.getButtonId() - width + 1].isPressed()) {
+						&& !field[bp.getButtonId() - width + 1].isPressed()) {
 					bp.setPressed(true);
-					pressingButton(pf.getField()[bp.getButtonId() - width + 1]);
+					pressingButton(field[bp.getButtonId() - width + 1]);
 				} // schräg links unten
-				if (bp.getButtonId() + width - 1 < pf.getField().length && (bp.getButtonId() + width) % width != 0
-						&& !pf.getField()[bp.getButtonId() + width - 1].isPressed()) {
+				if (bp.getButtonId() + width - 1 < field.length && (bp.getButtonId() + width) % width != 0
+						&& !field[bp.getButtonId() + width - 1].isPressed()) {
 					bp.setPressed(true);
-					pressingButton(pf.getField()[bp.getButtonId() + width - 1]);
+					pressingButton(field[bp.getButtonId() + width - 1]);
 				}// schräg rechts unten
-				if (bp.getButtonId() + width + 1 < pf.getField().length && (bp.getButtonId() + width+1) % width != 0
-						&& !pf.getField()[bp.getButtonId() + width + 1].isPressed()) {
+				if (bp.getButtonId() + width + 1 < field.length && (bp.getButtonId() + width+1) % width != 0
+						&& !field[bp.getButtonId() + width + 1].isPressed()) {
 					bp.setPressed(true);
-					pressingButton(pf.getField()[bp.getButtonId() + width + 1]);
+					pressingButton(field[bp.getButtonId() + width + 1]);
 				}
 
 			}
@@ -203,12 +216,23 @@ public class PlayingFieldController {
 	}
 
 	// setFlag
+	/**
+	 * Die Methode setFalg soll Falggen auf die Felder bzw. Buttons setzten. Hierzu wird als erstes 
+	 * geprüft, ob der Button bereits gedrückt wurde. Wenn nicht, so wird kontrolliert ob der Button
+	 * bereits eine Flagge hat. Wenn ja, so wird die Flagge entfernd und das Image der Flagge entfernd 
+	 * und die Anzahl der markierten Bomben korrigiert. Wenn der Button noch nicht markiert wurde, so 
+	 * wird die Flagge in den Button gesetzt und dem Button das Image der Falge gesetzt. Daraufhin wird
+	 * die Anzahl der markierten Bomben korrigiert.
+	 * Zum Schluss wird kontrolliert, ob alle Bomben markiert wurden. Wenn dem so ist, so hat der User gewonnen. 
+	 * 
+	 * @param bp
+	 */
 	public void setFlag(IButtonPlayingfield bp) {
 		if (!bp.isPressed()) {
 			if (bp.isFlag()) {
 				bp.setFlag(false);
 				// bp.setBackground(Color.blue);
-				bp.setIconMS(null);
+				bp.setImage(Imagetype.NONE, 0, 0);
 				if (bp.getValueButton().equals("x")) {
 					bombsFlagged--;
 				} else {
@@ -235,15 +259,18 @@ public class PlayingFieldController {
 
 	
 
+	/**
+	 * Die Methode restart setzt alle Werte im Spielfeld auf null bzw. auf false zurück. Das Resultat ist ein defacto Spielneustart.
+	 */
 	public void restart() {
 		// Neustart des Spiels
-		for (int i = 0; i < pf.getField().length; i++) {
-			pf.getField()[i].setValueButton(null);
-			pf.getField()[i].setPressed(false);
-			pf.getField()[i].setText(null);
-			pf.getField()[i].setBackground(0,0,255);
-			pf.getField()[i].setIconMS(null);
-			pf.getField()[i].setFlag(false);
+		for (int i = 0; i < field.length; i++) {
+			field[i].setValueButton(null);
+			field[i].setPressed(false);
+			field[i].setTextMS(null);
+			field[i].setBackground(0,0,255);
+			field[i].setImage(Imagetype.NONE, 0, 0);
+			field[i].setFlag(false);
 		}
 
 		bombsFlagged = 0;
@@ -257,16 +284,39 @@ public class PlayingFieldController {
 	}
 
 	// alle Felder aufdecken
+	/**
+	 * In der Methode turnAll werden alle Felder bzw. Buttons im Spielfeld umgedreht, so dass das gesamte Spielfeld aufgedeckt ist.
+	 */
 	public void turnAll() {
-		for (int i = 0; i < pf.getField().length; i++) {
-			pf.getField()[i].setPressed(true);
-			if (pf.getField()[i].getValueButton().equals("x")) {
-				pf.getField()[i].setBackground(255,0,0);
-				pf.getField()[i].setImage(Imagetype.BOMB, 50, 50);
+		for (int i = 0; i < field.length; i++) {
+			field[i].setPressed(true);
+			if (field[i].getValueButton().equals("x")) {
+				field[i].setBackground(255,0,0);
+				field[i].setImage(Imagetype.BOMB, 50, 50);
 			} else {
-				pf.getField()[i].setBackground(0,255,0);
-				pf.getField()[i].setText(pf.getField()[i].getValueButton());
+				field[i].setBackground(0,255,0);
+				field[i].setTextMS(field[i].getValueButton());
 			}
 		}
 	}
+
+
+	/**
+	 * Die Methode getField gibt das Spielfeld zurück.
+	 * @return
+	 */
+	public IButtonPlayingfield[] getField() {
+		return field;
+	}
+
+
+	/**
+	 * Mittels der Methode setField kann ein Spielfeld neu gesetzt werden.
+	 * @param field
+	 */
+	public void setField(IButtonPlayingfield[] field) {
+		this.field = field;
+	}
+	
+	
 }

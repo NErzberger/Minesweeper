@@ -11,10 +11,13 @@ import javax.swing.SwingUtilities;
 
 import controller.IButtonPlayingfield;
 import controller.PlayingFieldController;
+import main.Imagetype;
 import main.Main;
 
 
 /**
+ * Im Button ButtonPlayingfield wird das Interface {@link IButtonPlayingfield} implementiert.
+ * Dabei wird die Swing Bibliothek genutzt und es wird von der Klasse {@link JButton} geerbt. 
  * 
  * @author Nico
  * @author Larissa
@@ -54,45 +57,25 @@ public class ButtonPlayingfield extends JButton implements IButtonPlayingfield{
 		super(text);
 		this.buttonId = buttonId;
 		setBackground(Color.blue);
-		/**
-		 * diese Methode implementiert einen Action Listener & ruft die Methode executeButtonInController auf,
-		 * damit dieser regeln kann, was beim Drücken des Buttons passieren soll
-		 */
-//		addActionListener(new ActionListener() {
-//			
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				
-//			}
-//		});
-		
+				
 		addMouseListener(new MouseListener() {
-			
-			
+			//Methoden werden nicht benötigt			
 			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
+			public void mouseReleased(MouseEvent e) {}
 			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
+			public void mousePressed(MouseEvent e) {}
 			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
+			public void mouseExited(MouseEvent e) {}
 			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
+			public void mouseEntered(MouseEvent e) {}
 			
+			/**
+			 * Es wird geprüft, ob ein Rechtsklick oder ein Linksklick getätigt wurde. Bei einem
+			 * <ol>
+			 * <li>Rechtsklick wird die Methode executeRightClick() ausgeführt, welche die weitere Bearbeitung an den Contorller leitet</li>
+			 * <li>Linksklick wird die Mehtode executeButtonInController ausgefürht, welche ebenfalls die Bearbeitung in den Controller weiterleitet.</li>
+			 * </ol>
+			 */
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(SwingUtilities.isRightMouseButton(e)) {
@@ -135,17 +118,20 @@ public class ButtonPlayingfield extends JButton implements IButtonPlayingfield{
 	}
 	
 	public void setImage(Imagetype type, int width, int height) {
+		if(type != Imagetype.NONE) {
 		ImageIcon icon = null;
 		if(type == Imagetype.BOMB) {
 			icon = new ImageIcon(Main.class.getResource("/view/bomb.png"));
 		} else if(type == Imagetype.FLAG){
 			icon = new ImageIcon(Main.class.getResource("/view/flag.png"));
-		} else if(type == Imagetype.WALL) {
-			//ImageIcon icon = new ImageIcon(Main.class.getResource("/main/wall.png"));
-		}
-
+		} 
 		Image image = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
 		this.setIcon(new ImageIcon(image));
+		
+		// Für den Fall, dass das Iamge aufgehoben / gelöscht werden soll
+		}else if(type == Imagetype.NONE) {
+			this.setIcon(null);
+		}
 	}
 
 	/**
@@ -156,10 +142,7 @@ public class ButtonPlayingfield extends JButton implements IButtonPlayingfield{
 		return valueButton;
 	}
 
-	/**
-	 * Diese Methode setzt die Variable valueButton
-	 * @param valueButton
-	 */
+	
 	public void setValueButton(String valueButton) {
 		this.valueButton = valueButton;
 	}
@@ -172,6 +155,7 @@ public class ButtonPlayingfield extends JButton implements IButtonPlayingfield{
 		this.isFlag = isFlag;
 	}
 
+	
 	@Override
 	public void setBackground(int r, int g, int b) {
 		// TODO Auto-generated method stub
@@ -179,10 +163,8 @@ public class ButtonPlayingfield extends JButton implements IButtonPlayingfield{
 	}
 
 	@Override
-	public void setIconMS(ImageIcon icon) {
-		// TODO Auto-generated method stub
-		setIcon(icon);
+	public void setTextMS(String text) {
+		setText(text);
+		
 	}
-	
-
 }

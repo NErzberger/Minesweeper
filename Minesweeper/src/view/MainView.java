@@ -16,11 +16,25 @@ import javax.swing.border.EmptyBorder;
 
 import controller.IMainView;
 
-
+/**
+ * Die Klasse MainView implementiert das Interface IMainView und ist die 
+ * standartmäßig verwendete GUI. Sie dient als Container für das Spielfeld.
+ * 
+ * @author Nico
+ * @author Larissa
+ *
+ */
 
 public class MainView extends JFrame implements IMainView{
+	
+	/**
+	 * 
+	 */
 	private JPanel contentPane;
 	
+	/**
+	 * Im Konstruktor werden alle Inhalte der GUI festgelegt. 
+	 */
 	public MainView() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1192, 690);
@@ -64,7 +78,10 @@ public class MainView extends JFrame implements IMainView{
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 	}
 	
-	
+	/**
+	 * Die Methode run erstellt eine Queue, in der ein Thread gestartet wird, worin die GUI läuft.
+	 * Somit hat die GUI einen eigenen Thread als Umgebung.
+	 */
 	public void run() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
