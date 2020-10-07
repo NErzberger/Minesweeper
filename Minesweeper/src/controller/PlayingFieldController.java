@@ -1,5 +1,7 @@
 package controller;
 
+import javax.swing.JOptionPane;
+
 import main.Imagetype;
 import model.DataGrid;
 import view.Playingfield;
@@ -151,7 +153,7 @@ public class PlayingFieldController {
 			// wenn eine Mine getroffen wird
 			if (bp.getValueButton().equals("x")) {
 				// bp.setImage(Imagetype.BOMB, 50, 50);
-				mbox.showMessage("Leider verloren!", "Du hast eine Mine getroffen.", this);
+				setMessage("Leider verloren!", "Du hast eine Mine getroffen.");
 				turnedFields=0;
 				return;
 			} else {
@@ -162,7 +164,7 @@ public class PlayingFieldController {
 					bp.setPressed(true);
 				}
 				if (turnedFields == (field.length - dg.getNumberBombs())) {
-					mbox.showMessage("Glückwunsch! Gewonnen!", "Du hast alle freien Felder aufgedeckt!", this);
+					setMessage("Glückwunsch! Gewonnen!", "Du hast alle freien Felder aufgedeckt!");
 					turnedFields = 0;
 					return;
 				}
@@ -250,7 +252,7 @@ public class PlayingFieldController {
 				}
 			}
 			if (bombsFlagged == dg.getNumberBombs()) {
-				mbox.showMessage("Glückwunsch! Gewonnen!", "Du hast alle Bomben markiert!", this);
+				setMessage("Glückwunsch! Gewonnen!", "Du hast alle Bomben markiert!");
 				turnedFields=0;
 				return;
 			}
@@ -316,6 +318,22 @@ public class PlayingFieldController {
 	 */
 	public void setField(IButtonPlayingfield[] field) {
 		this.field = field;
+	}
+	
+	
+	public void setMessage(String title, String message) {
+		turnAll();
+		String[] options = new String[2];
+		options[0] = new String("Neustart");
+		options[1] = new String("Schließen");
+		int returnValue = mbox.showMessage(title, message, options, pf);
+		if (returnValue == 0) {
+			restart();
+		}
+		// Beenden des Spiels / Schließen
+		if (returnValue == 1) {
+			System.exit(0);
+		}
 	}
 	
 	

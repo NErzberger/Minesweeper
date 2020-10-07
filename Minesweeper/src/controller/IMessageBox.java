@@ -17,17 +17,8 @@ public interface IMessageBox {
 	 * @param title
 	 * @param message
 	 * @param options
+	 * @param ipc
 	 */
-	public int showMessage(String title, String message, String[] options);
+	public int showMessage(String title, String message, String[] options, IPanelComponent ipc);
 	
-	// Macht keinen Sinn!!!!!!
-	/**
-	 * Wenn Meldung an den User gemacht werden soll wird die Methode showMessage aufgerufen. Dabei wird lediglich der Titel, eine Nachricht und zur Orientierung der 
-	 * {@link PlayingFieldController} als Parameter mitgegeben. Weitere Vorgaben wie die Nachricht aussehen soll werden nicht gemacht.
-	 * 
-	 * @param title
-	 * @param message
-	 * @param pf
-	 */
-	public void showMessage(String title, String message, PlayingFieldController pf);
 }
