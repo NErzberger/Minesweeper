@@ -18,7 +18,7 @@ import controller.IPanelComponent;
 public class MessageBox implements IMessageBox {
 
 	/**
-	 * Der Konsturktor ist leer, da er keine Variablen übergeben muss. 
+	 * Der Konstruktor ist leer, da er keine Variablen übergeben muss. 
 	 */
 	public MessageBox() {}
 	
