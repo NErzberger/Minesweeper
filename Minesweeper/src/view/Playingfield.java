@@ -26,12 +26,12 @@ public class Playingfield extends JPanel implements IPanelComponent{
 	 * @param width
 	 * @param height
 	 */
-	public Playingfield(int width, int height) {
+	public Playingfield() {
 		//rufe Controller auf
-		this.pfController = new PlayingFieldController(width, height, this, new MessageBox());
+		this.pfController = new PlayingFieldController(this, new MessageBox());
 		
-		pfController.setField(new IButtonPlayingfield[width*height]);
-		setLayout(new GridLayout(height, width));
+		pfController.setField(new IButtonPlayingfield[pfController.getDg().getWidth()*pfController.getDg().getHeight()]);
+		setLayout(new GridLayout(pfController.getDg().getHeight(), pfController.getDg().getWidth()));
 		
 		for (int i = 0; i < pfController.getField().length; i++) {
 			pfController.getField()[i] = new ButtonPlayingfield("", pfController, i);

@@ -17,21 +17,25 @@ public class DataGrid {
 	 */
 	private int numberBombs = 5;
 	
-	private int width;
+	/**
+	 * Diese Klassenvariable des Tpys {@link Integer} gibt die Breite des Spielfelds an und ist unveränderlich.
+	 */
+	private final int width = 6;
+	/**
+	 * Diese Klassenvariable des Tpys {@link Integer} gibt die Höhe des Spielfelds an und ist unveränderlich.
+	 */
+	private final int height = 5;
 	
-	private int height;
-	
-	
-	
+
+
 	/**
 	 * Konstruktor der Klasse {@link DataGrid}. Bei Aufruf des Konstruktors wird die Methode setBombs aufgerufen.
 	 * @param width
 	 * @param height
 	 * @param numberBombs
 	 */
-	public DataGrid(int width, int height, int numberBombs) {
+	public DataGrid() {
 		positionBombs = new String[width*height];
-		this.numberBombs = numberBombs;
 		setBombs(numberBombs);
 	}
 	
@@ -86,5 +90,21 @@ public class DataGrid {
 		this.numberBombs = numberBombs;
 	}
 	
+	
+	/**
+	 * Diese Methode gibt die Breite des Spielfelds zurück
+	 * @return width
+	 */
+	public int getWidth() {
+		return width;
+	}
+
+	/**
+	 * Diese Methode gibt die Höhe des Spielfelds zurück
+	 * @return height
+	 */
+	public int getHeight() {
+		return height;
+	}
 	
 }

@@ -44,7 +44,7 @@ public class MainView extends JFrame implements IMainView{
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 		
-		Playingfield pf = new Playingfield(6, 5);
+		Playingfield pf = new Playingfield();
 		
 		JPanel center = pf;
 		

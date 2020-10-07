@@ -32,16 +32,15 @@ public class PlayingFieldController {
 	 */
 	private DataGrid dg;
 	
-	/**
-	 * In der Klassenvariable width wird die Breite & Höhe des Spielfeldes
-	 * festgehalten.
-	 */
-	private int width;
-	
-	/**
-	 * 
-	 */
-	private int height;
+	public DataGrid getDg() {
+		return dg;
+	}
+
+
+	public void setDg(DataGrid dg) {
+		this.dg = dg;
+	}
+
 
 	/**
 	 * Anzahl der Bomben, die bereits markiert wurden
@@ -61,17 +60,13 @@ public class PlayingFieldController {
 	
 	/**
 	 * Konstruktor der Klasse {@link PlayingFieldController}.
-	 * 
-	 * @param width
-	 * @param height
+	 * @param mbox
 	 * @param pf
 	 */
-	public PlayingFieldController(int width, int height, IPanelComponent pf, IMessageBox mbox) {
-		dg = new DataGrid(width, height, 5);
+	public PlayingFieldController(IPanelComponent pf, IMessageBox mbox) {
+		dg = new DataGrid();
 		this.pf = pf;
 		this.mbox = mbox;
-		this.width = width;
-		this.height = height;
 	}
 
 
@@ -100,29 +95,29 @@ public class PlayingFieldController {
 			if (posBombs[j] == null) {
 				// prüfe, ob rechts eine Bombe liegt (so lange wir uns auf dem Spielfeld
 				// befinden)
-				if (j < posBombs.length && (j + 1) % width != 0 && posBombs[j + 1] != null) { 
+				if (j < posBombs.length && (j + 1) % dg.getWidth() != 0 && posBombs[j + 1] != null) { 
 					counter++;
 				} // links
-				if (j - 1 >= 0 && j % width != 0 && posBombs[j - 1] != null) {
+				if (j - 1 >= 0 && j % dg.getWidth() != 0 && posBombs[j - 1] != null) {
 					counter++;
 				} // direkt darunter
-				if (j + width < posBombs.length && posBombs[j + width] != null) {
+				if (j + dg.getWidth() < posBombs.length && posBombs[j + dg.getWidth()] != null) {
 					counter++;
 				} // direkt darüber
-				if (j - width >= 0 && posBombs[j - width] != null) {
+				if (j - dg.getWidth() >= 0 && posBombs[j - dg.getWidth()] != null) {
 					counter++;
 				} // schräg links oben
-				if (j - width - 1 >= 0 && (j - width) % width != 0 && posBombs[j - width - 1] != null) {
+				if (j - dg.getWidth() - 1 >= 0 && (j - dg.getWidth()) % dg.getWidth() != 0 && posBombs[j - dg.getWidth() - 1] != null) {
 					counter++;
 				} // schräg rechts oben
-				if (j - width + 1 >= 0 && (j - width + 1) % width != 0 && posBombs[j - width + 1] != null) {
+				if (j - dg.getWidth() + 1 >= 0 && (j - dg.getWidth() + 1) % dg.getWidth() != 0 && posBombs[j - dg.getWidth() + 1] != null) {
 					counter++;
 				} // schräg links unten
-				if (j + width - 1 < posBombs.length && (j + width) % width != 0 && posBombs[j + width - 1] != null) {
+				if (j + dg.getWidth() - 1 < posBombs.length && (j + dg.getWidth()) % dg.getWidth() != 0 && posBombs[j + dg.getWidth() - 1] != null) {
 					counter++;
 				} // schräg rechts unten
-				if (j + width + 1 < posBombs.length && (j + width + 1) % width != 0
-						&& posBombs[j + width + 1] != null) {
+				if (j + dg.getWidth() + 1 < posBombs.length && (j + dg.getWidth() + 1) % dg.getWidth() != 0
+						&& posBombs[j + dg.getWidth() + 1] != null) {
 					counter++;
 				}
 				field[j].setValueButton("" + counter);
@@ -173,44 +168,44 @@ public class PlayingFieldController {
 			// umliegende Felder werden aufgedeckt, wenn 0 Minen außenherum liegen; rekursiv
 			if (bp.getValueButton().equals("0")) {
 				// decke das rechte Feld auf (so lange wir uns auf dem Spielfeld befinden)
-				if ((bp.getButtonId() + 1) < field.length && (bp.getButtonId() + 1) % width != 0
+				if ((bp.getButtonId() + 1) < field.length && (bp.getButtonId() + 1) % dg.getWidth() != 0
 						&& !field[bp.getButtonId() + 1].isPressed()) {
 					bp.setPressed(true);
 					pressingButton(field[bp.getButtonId() + 1]);
 				} // links
-				if ((bp.getButtonId() - 1) >= 0 && (bp.getButtonId()) % width != 0
+				if ((bp.getButtonId() - 1) >= 0 && (bp.getButtonId()) % dg.getWidth() != 0
 						&& !field[bp.getButtonId() - 1].isPressed()) {
 					bp.setPressed(true);
 					pressingButton(field[bp.getButtonId() - 1]);
 				} // direkt darunter
-				if (bp.getButtonId() + width < field.length
-						&& !field[bp.getButtonId() + width].isPressed()) {
+				if (bp.getButtonId() + dg.getWidth() < field.length
+						&& !field[bp.getButtonId() + dg.getWidth()].isPressed()) {
 					bp.setPressed(true);
-					pressingButton(field[bp.getButtonId() + width]);
+					pressingButton(field[bp.getButtonId() + dg.getWidth()]);
 				} // direkt darüber
-				if (bp.getButtonId() - width >= 0 && !field[bp.getButtonId() - width].isPressed()) {
+				if (bp.getButtonId() - dg.getWidth() >= 0 && !field[bp.getButtonId() - dg.getWidth()].isPressed()) {
 					bp.setPressed(true);
-					pressingButton(field[bp.getButtonId() - width]);
+					pressingButton(field[bp.getButtonId() - dg.getWidth()]);
 				} // schräg links oben
-				if ((bp.getButtonId() - width - 1) >= 0 && (bp.getButtonId() - width) % width != 0
-						&& !field[bp.getButtonId() - width - 1].isPressed()) {
+				if ((bp.getButtonId() - dg.getWidth() - 1) >= 0 && (bp.getButtonId() - dg.getWidth()) % dg.getWidth() != 0
+						&& !field[bp.getButtonId() - dg.getWidth() - 1].isPressed()) {
 					bp.setPressed(true);
-					pressingButton(field[bp.getButtonId() - width - 1]);
+					pressingButton(field[bp.getButtonId() - dg.getWidth() - 1]);
 				} // schräg rechts oben
-				if ((bp.getButtonId() - width + 1 >= 0) && (bp.getButtonId() - width + 1) % width != 0
-						&& !field[bp.getButtonId() - width + 1].isPressed()) {
+				if ((bp.getButtonId() - dg.getWidth() + 1 >= 0) && (bp.getButtonId() - dg.getWidth() + 1) % dg.getWidth() != 0
+						&& !field[bp.getButtonId() - dg.getWidth() + 1].isPressed()) {
 					bp.setPressed(true);
-					pressingButton(field[bp.getButtonId() - width + 1]);
+					pressingButton(field[bp.getButtonId() - dg.getWidth() + 1]);
 				} // schräg links unten
-				if (bp.getButtonId() + width - 1 < field.length && (bp.getButtonId() + width) % width != 0
-						&& !field[bp.getButtonId() + width - 1].isPressed()) {
+				if (bp.getButtonId() + dg.getWidth() - 1 < field.length && (bp.getButtonId() + dg.getWidth()) % dg.getWidth() != 0
+						&& !field[bp.getButtonId() + dg.getWidth() - 1].isPressed()) {
 					bp.setPressed(true);
-					pressingButton(field[bp.getButtonId() + width - 1]);
+					pressingButton(field[bp.getButtonId() + dg.getWidth() - 1]);
 				}// schräg rechts unten
-				if (bp.getButtonId() + width + 1 < field.length && (bp.getButtonId() + width+1) % width != 0
-						&& !field[bp.getButtonId() + width + 1].isPressed()) {
+				if (bp.getButtonId() + dg.getWidth() + 1 < field.length && (bp.getButtonId() + dg.getWidth()+1) % dg.getWidth() != 0
+						&& !field[bp.getButtonId() + dg.getWidth() + 1].isPressed()) {
 					bp.setPressed(true);
-					pressingButton(field[bp.getButtonId() + width + 1]);
+					pressingButton(field[bp.getButtonId() + dg.getWidth() + 1]);
 				}
 
 			}
@@ -277,7 +272,7 @@ public class PlayingFieldController {
 
 		bombsFlagged = 0;
 		turnedFields = 0;
-		dg.setPositionBombs(new String[width * height]);
+		dg.setPositionBombs(new String[dg.getWidth() * dg.getHeight()]);
 
 		dg.setBombs(dg.getNumberBombs());
 		this.showBombs();
@@ -321,6 +316,11 @@ public class PlayingFieldController {
 	}
 	
 	
+	/**
+	 * Methode zum Aufrufen der MessageBox
+	 * @param title
+	 * @param message
+	 */
 	public void setMessage(String title, String message) {
 		turnAll();
 		String[] options = new String[2];
