@@ -8,4 +8,9 @@ package controller;
  * @author Larissa
  *
  */
-public interface IPanelComponent {}
+public interface IPanelComponent {
+	/**
+	 * Diese Methode erstellt das Spielfeld und stellt es in der GUI dar.
+	 */
+	public void drawPlayingfield();
+}
